@@ -6,3 +6,7 @@
     <%= post.body %>
   </div>
 <% end %>
+
+<% if user_signed_in? %>
+  <%= link_to "New Post", :new_post %>
+<%end %>

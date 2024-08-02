@@ -2,3 +2,6 @@
 
 
 <p><%= @post.body %></p>
+
+<%= link_to "Edit", :edit_post if user_signed_in? %>
+<%= button_to "Delete", @post, method: :delete, data: { turbo_confirm: "Are you sure?" } if user_signed_in? %>
