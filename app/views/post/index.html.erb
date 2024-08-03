@@ -1,12 +1,27 @@
 <h1>My blog<h1>
 
-<% @posts.each do |post| %>
-  <div>
-   <h2><%= link_to post.title, post %></h2>
-    <%= post.body %>
-  </div>
-<% end %>
-
 <% if user_signed_in? %>
   <%= link_to "New Post", :new_post %>
 <%end %>
+
+<div class="grid gap-4">
+  <% @posts.each do |post| %>
+    <div class="shadow rounded p-1 px-2">
+    <h2><%= link_to post.title, post %></h2>
+      <%= post.body %>
+    <% if post.draft? %>
+      <div class="bg-yellow-200 rounded w-fit">
+        <p class="text-gray-900 p-1">Draft</p>
+      </div>
+    <% elsif post.schedule? %>
+      <div class="bg-blue-100 rounded w-fit">
+        <p class="text-blue-900 p-1">Scheduled</p>
+      </div>
+    <% else %>
+      <div class="bg-green-100 rounded w-fit">
+        <p class="text-green-900 p-1">Published</p>
+      </div>
+    <%end%>
+    </div>
+  <% end %>
+</div>

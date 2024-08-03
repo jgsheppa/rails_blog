@@ -3,12 +3,10 @@ class PostController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
 
   def index
-    @posts = Post.all
+    @posts = user_signed_in? ? Post.sorted : Post.published.sorted
   end
 
   def show
-  rescue ActiveRecord::RecordNotFound
-    redirect_to root_path
   end
 
   def new
@@ -43,11 +41,11 @@ class PostController < ApplicationController
   private
 
   def blog_post_params
-    params.require(:post).permit(:title, :body)
+    params.require(:post).permit(:title, :body, :published_at)
   end
 
   def set_blog_post
-    @post = Post.find(params[:id])
+    @post = user_signed_in? ? Post.find(params[:id]) : @post = Post.published.find(params[:id])
     rescue ActiveRecord::RecordNotFound
       redirect_to root_path
   end
